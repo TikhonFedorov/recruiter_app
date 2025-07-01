@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="error-page">
+        <h1>404</h1>
+        <h2>Страница не найдена.</h2>
+        <p>Когда ты не знаешь, что делать, то ты не знаешь, что делать.</p>
+        <a href="{{ url_for('index') }}" class="btn">Вернуться на главную</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,196 @@
+.nav {
+  width: 15%;
+  margin: var(--space-lg) 0;
+  background-color: var(--color-bg-dark);
+  padding: 1.25rem 0.9375rem;
+}
+
+.nav h2 {
+  margin: 0.75rem 1.25rem 2.25rem;
+  font-family: var(--font-accent);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+.nav a:link {
+  text-decoration: none;
+  color: var(--color-text-main);
+}
+
+.nav h3 {
+  margin: 0.75rem 1.25rem 1.25rem;
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  color: var(--color-text-subtle);
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav ul li {
+  display: flex;
+  padding: 0.75rem 1.25rem;
+  align-items: center;
+  gap: 1.25rem;
+  align-self: stretch;
+}
+
+.nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--color-text-main);
+}
+
+.nav ul li:hover {
+  border-radius: 0.5rem;
+  background: linear-gradient(270deg, #323337 50%, rgba(70, 79, 111, 0.50) 100%);
+  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.05) inset, 0px 4px 8px 0px rgba(0, 0, 0, 0.10);
+}
+
+.nav img {
+  vertical-align: middle;
+}
+
+.main {
+  background-color: var(--color-bg-medium);
+  width: 70%;
+  margin: var(--space-lg) 0;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  text-align: center;
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
+.totals{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.main h1 {
+  font-size: var(--font-size-lg);
+  margin: var(--space-lg) 0 var(--space-md);
+}
+
+.main p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+}
+
+.line {
+  margin: var(--space-md) 0;
+  border-bottom: thin solid var(--color-border);
+}
+
+.sidebar {
+  width: 15%;
+  margin: var(--space-lg) var(--space-lg) var(--space-lg) 0;
+  background-color: var(--color-bg-medium);
+  padding: var(--space-lg);
+  border-left: thin solid var(--color-border);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.sidebar form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h3 {
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-subtle);
+}
+
+.sidebar label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: 0.3125rem;
+}
+
+.sidebar input {
+  display: flex;
+  padding: 0.75rem;
+  align-items: center;
+  gap: 0.75rem;
+  align-self: stretch;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg-medium);
+  margin-bottom: var(--space-sm);
+}
+
+.sidebar [type="text"], [type="number"] {
+  color: var(--color-text-subtle);
+  font-family: var(--font-main);
+  font-feature-settings: 'liga' off, 'clig' off;
+  /* Caption1/Regular */
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1rem; /* 133.333% */
+}
+
+.sidebar h3 {
+  color: var(--color-text-subtle);
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5rem; /* 150% */
+  letter-spacing: -0.02rem;
+}
+
+.sidebar label {
+  color: var(--color-text-main);
+  font-feature-settings: 'liga' off, 'clig' off;
+/* Callout/Emphasized */
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  font-style: normal;
+  font-weight: 590;
+  line-height: 1.3125rem; /* 131.25% */
+  letter-spacing: -0.01938rem;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.sidebar button {
+  margin: var(--space-sm) 0;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: var(--radius-sm);
+  background-color: #1A1A1A;
+  color: var(--color-text-main);
+  font-size: var(--font-size-xs);
+}
+
+.sidebar button {
+  background-color: var(--color-green);
+  cursor: pointer;
+  border: none;
+}
+
+.sidebar button:hover {
+  background-color: var(--color-green-hover);
+}
+
+

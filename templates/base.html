@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/error.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('index') }}"><h2>HR Hub</h2></a>
+        <ul>
+            <li>
+                <a href="/nonexistent">
+                    <img src="{{ url_for('static', filename='img/chat.svg') }}" alt="Чаты" width="20" height="20">
+                    Чаты
+                </a>
+            </li>
+            <li>
+                <a href="/nonexistent">
+                    <img src="{{ url_for('static', filename='img/search.svg') }}" alt="Поиск" width="20" height="20">
+                    Поиск
+                </a>
+            </li>
+            <li>
+                <a href="/nonexistent">
+                    <img src="{{ url_for('static', filename='img/subscription.svg') }}" alt="Подписка" width="20" height="20">
+                    Управление подпиской
+                </a>
+            </li>
+            <li>
+                <a href="/nonexistent">
+                    <img src="{{ url_for('static', filename='img/faq.svg') }}" alt="FAQ" width="20" height="20">
+                    Обновления & FAQ
+                </a>
+            </li>
+            <li>
+                <a href="/nonexistent">
+                    <img src="{{ url_for('static', filename='img/settings.svg') }}" alt="Настройки" width="20" height="20">
+                    Настройки
+                </a>
+            </li>
+        <div class="line">
+        </div>
+        </ul>
+            <h3>Инструменты</h3>
+        <ul>
+            <li>
+                <a href="{{ url_for('salary_calculator.salary_calculator') }}">
+                    <img src="{{ url_for('static', filename='img/calc.svg') }}" alt="Настройки" width="20" height="20">
+                    Калькулятор зарплаты
+                </a>
+            </li>
+            <li>
+            <a href="{{ url_for('vacancy_generator.vacancy_generator') }}">
+                    <img src="{{ url_for('static', filename='img/vacancy.svg') }}" alt="Настройки" width="20" height="20">
+                Генератор вакансий
+                </a>
+            </li>
+    </ul>
+</li>
+        </ul>
+    </div>
+
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="sidebar">
+        {% block sidebar %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

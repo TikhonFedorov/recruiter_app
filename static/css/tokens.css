@@ -1,0 +1,50 @@
+:root {
+  /* Шрифты */
+  --font-main: 'Inter', sans-serif;
+  --font-accent: 'Karla', sans-serif;
+
+  /* Цвета */
+  --color-bg-dark: #141718;
+  --color-bg-medium: #232627;
+  --color-bg-light: #0D0D0D;
+  --color-border: #343839;
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #B0B0B0;
+  --color-text-subtle: #6C7275;
+
+  --color-purple: #8A4AF3;
+  --color-purple-hover: #6F38C5;
+  --color-orange: #F5A623;
+  --color-orange-hover: #D68F1E;
+  --color-green: #4CAF50;
+  --color-green-hover: #45a049;
+  --color-blue: #00A3FF;
+  --color-blue-hover: #008DD2;
+  --color-error: #F2545B;
+
+  --color-table: #363636;
+  --color-table-title: #404040;
+  --color-table-border: #5B5B5B;
+
+  /* Отступы */
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-xxl: 4rem;      /* 64px */
+
+  /* Радиусы */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 1rem;      /* 16px */
+
+  /* Размеры шрифта */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-md: 1.25rem;    /* 20px */
+  --font-size-lg: 2rem;       /* 32px */
+  --font-size-xl: 3rem;       /* 48px */
+  --font-size-xxl: 6rem;      /* 96px */
+}

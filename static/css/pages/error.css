@@ -1,0 +1,32 @@
+.error-page {
+  text-align: center;
+  margin-top: var(--space-xxl);
+  color: var(--color-text-main);
+}
+
+.error-page h1 {
+  font-size: var(--font-size-xxl);
+  margin-bottom: 0.2em;
+  color: var(--color-error);
+}
+
+.error-page p {
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-xl);
+  color: var(--color-text-muted);
+}
+
+.error-page .btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-blue);
+  color: #fff;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.error-page .btn:hover {
+  background-color: var(--color-blue-hover);
+}

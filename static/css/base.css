@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  display: flex;
+  height: 100vh;
+  font-size: var(--font-size-base);
+}

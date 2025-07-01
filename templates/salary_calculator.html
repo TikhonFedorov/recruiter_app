@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="headline">
+        <h1>Калькулятор заработной платы</h1>
+        <p>Современный калькулятор с возможностью расчета ЗП с районным коэффициентом, северной надбавкой и KPI (учитывает прогрессивную шкалу НДФЛ с 2025 года).</p>
+    </div>
+    {% if errors %}
+        <ul class="errors">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Месяц</th>
+                <th>Доход (руб.)</th>
+                <th>Квартальная премия (руб.)</th>
+                <th>Налог (руб.)</th>
+                <th>На руки (руб.)</th>
+                <th>Ставка</th>
+                <th>Накопленный доход (руб.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if results %}
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.month }}</td>
+                    <td>{{ row.income }}</td>
+                    <td>{{ row.kpi_bonus }}</td>
+                    <td>{{ row.tax }}</td>
+                    <td>{{ row.net_income }}</td>
+                    <td>{{ row.rate_details }}</td>
+                    <td>{{ row.cumulative_income }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">Данные не введены</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <h3>Итоги за год:</h3>
+        <p><strong>Годовой доход:</strong> {{ annual_data.annual_income or '—' }} руб.</p>
+        <p><strong>Годовой налог:</strong> {{ annual_data.annual_tax or '—' }} руб.</p>
+        <p><strong>Годовой доход на руки:</strong> {{ annual_data.annual_net_income or '—' }} руб.</p>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <form method="POST" action="{{ url_for('salary_calculator.salary_calculator') }}">
+        <h3>Ввод данных</h3>
+
+        <label>Ежемесячный оклад (руб.):</label>
+        <input type="text" id="salary_display" inputmode="numeric" autocomplete="off"
+               value="{{ form_data.salary | default('') | string | replace(',', ' ') }}">
+        <input type="hidden" id="salary" name="salary" value="{{ form_data.salary or '' }}">
+
+        <label>Ежемесячная премия (руб.):</label>
+        <input type="text" id="monthly_bonus_display" inputmode="numeric" autocomplete="off"
+               value="{{ form_data.monthly_bonus | default('') | string | replace(',', ' ') }}">
+        <input type="hidden" id="monthly_bonus" name="monthly_bonus" value="{{ form_data.monthly_bonus or '' }}">
+
+        <label>Районный коэффициент (например, 1.3):</label>
+        <input type="number" step="0.01" name="rk_rate" value="{{ form_data.rk_rate or '1.0' }}" required>
+
+        <label>Северная надбавка (%):</label>
+        <input type="number" name="sn_percentage" value="{{ form_data.sn_percentage or '0' }}">
+
+        <label>
+            <input type="checkbox" id="kpiToggle" name="kpi_enabled" {% if form_data.kpi_enabled == 'on' %}checked{% endif %}>
+            Включить KPI
+        </label>
+
+        <div id="kpiFields">
+            <label>Процент KPI (%):</label>
+            <input type="text" id="kpi_percentage_display" inputmode="numeric" autocomplete="off"
+                   value="{{ form_data.kpi_percentage | default('') | string | replace(',', ' ') }}">
+            <input type="hidden" id="kpi_percentage" name="kpi_percentage" value="{{ form_data.kpi_percentage or '0' }}">
+            <br>
+
+            <label>Период KPI:</label>
+            <select name="kpi_period">
+                <option value="quarter" {% if form_data.kpi_period == 'quarter' %}selected{% endif %}>Квартал</option>
+                <option value="halfyear" {% if form_data.kpi_period == 'halfyear' %}selected{% endif %}>Полугодие</option>
+            </select>
+        </div>
+
+        <button type="submit">Рассчитать</button>
+    </form>
+
+    <script>
+        const kpiToggle = document.getElementById('kpiToggle');
+        const kpiFields = document.getElementById('kpiFields');
+
+        function toggleKPIFields() {
+            kpiFields.style.display = kpiToggle.checked ? 'block' : 'none';
+        }
+
+        kpiToggle.addEventListener('change', toggleKPIFields);
+        window.addEventListener('DOMContentLoaded', toggleKPIFields);
+
+        // Разрядка
+        function formatNumber(value) {
+            return value.replace(/\D/g, '')
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+
+        function unformatNumber(value) {
+            return value.replace(/\s/g, '');
+        }
+
+        function setupFormattedInput(displayId, hiddenId) {
+            const displayInput = document.getElementById(displayId);
+            const hiddenInput = document.getElementById(hiddenId);
+
+            function sync() {
+                const unformatted = unformatNumber(displayInput.value);
+                displayInput.value = formatNumber(unformatted);
+                hiddenInput.value = unformatted;
+            }
+
+            displayInput.addEventListener('input', sync);
+            window.addEventListener('DOMContentLoaded', sync);
+        }
+
+        setupFormattedInput('salary_display', 'salary');
+        setupFormattedInput('monthly_bonus_display', 'monthly_bonus');
+        setupFormattedInput('kpi_percentage_display', 'kpi_percentage');
+    </script>
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="headline">
+        <h1>Добро пожаловать в HR Hub</h1>
+        <p>Умные решения для HR - начни использовать прямо сейчас.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('salary_calculator.salary_calculator') }}"><button>Калькулятор заработной платы</button></a>
+        <a href="{{ url_for('vacancy_generator.vacancy_generator') }}"><button>Генератор вакансий</button></a>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <p>Выберите модуль для ввода данных.</p>
+{% endblock %}
