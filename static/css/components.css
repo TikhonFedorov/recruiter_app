@@ -32,7 +32,7 @@ table {
   border-right: 1px solid var(--color-table-border);
   border-bottom: 1px solid var(--color-table-border);
   border-spacing: 0;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   margin-top: var(--space-md);
 }
 
@@ -69,14 +69,219 @@ td {
 }
 
 th:first-of-type {
-  border-top-left-radius: 0.5rem;
+  border-top-left-radius: var(--radius-md);
 }
 th:last-of-type {
-  border-top-right-radius: 0.5rem;
+  border-top-right-radius: var(--radius-md);
 }
 tr:last-of-type td:first-of-type {
-  border-bottom-left-radius: 0.5rem;
+  border-bottom-left-radius: var(--radius-md);
 }
 tr:last-of-type td:last-of-type {
-  border-bottom-right-radius: 0.5rem;
+  border-bottom-right-radius: var(--radius-md);
+}
+
+/* Компоненты генератора вакансий */
+
+/* Контейнер для AI вакансии */
+.ai-vacancy-box {
+    margin-top: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background-color: var(--color-bg-medium);
+    text-align: left; /* Переопределяем выравнивание для всего контейнера */
+}
+
+.ai-vacancy-content {
+    background-color: var(--color-bg-dark);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+    margin-top: var(--space-sm);
+    font-family: var(--font-main);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text-main);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow-x: auto;
+    text-align: left; /* Выравнивание по левому краю */
+}
+
+/* Индикатор загрузки */
+.loading-box {
+    text-align: center;
+    padding: var(--space-md);
+    background-color: var(--color-bg-medium);
+    border: 1px solid var(--color-blue);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-md);
+}
+
+.loading-box p {
+    margin: 0;
+    color: var(--color-blue);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+}
+
+/* Контейнер для ошибок */
+.error-box {
+    padding: var(--space-md);
+    background-color: var(--color-bg-medium);
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-md);
+    text-align: left; /* Переопределяем выравнивание для ошибок */
+}
+
+.error-box p {
+    margin: 0;
+    color: var(--color-error);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+}
+
+/* Секция формы */
+.form-section {
+    margin-bottom: var(--space-md);
+}
+
+.form-section h3 {
+    color: var(--color-text-subtle);
+    font-family: var(--font-main);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    line-height: 1.5rem;
+    letter-spacing: -0.02rem;
+    margin-bottom: var(--space-md);
+}
+
+.form-section label {
+    display: block;
+    color: var(--color-text-main);
+    font-family: var(--font-main);
+    font-size: var(--font-size-base);
+    font-weight: 590;
+    line-height: 1.3125rem;
+    letter-spacing: -0.01938rem;
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.form-section input,
+.form-section textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: var(--color-bg-medium);
+    color: var(--color-text-subtle);
+    font-family: var(--font-main);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1rem;
+    margin-bottom: var(--space-sm);
+    box-sizing: border-box;
+    text-align: left; /* Выравнивание текста в полях ввода */
+}
+
+.form-section textarea {
+    resize: vertical;
+    min-height: 5rem;
+}
+
+.form-section button {
+    background-color: var(--color-green);
+    color: var(--color-text-main);
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    margin: var(--space-sm) 0;
+    transition: background-color 0.3s ease;
+}
+
+.form-section button:hover {
+    background-color: var(--color-green-hover);
+}
+
+.form-section button:disabled {
+    background-color: var(--color-text-subtle);
+    cursor: not-allowed;
+}
+
+/* Контейнер для результатов */
+.result-box {
+    margin-top: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background-color: var(--color-bg-medium);
+    text-align: left; /* Переопределяем выравнивание для результатов */
+}
+
+.result-box h3 {
+    margin-top: 0;
+    color: var(--color-text-main);
+    font-family: var(--font-main);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+}
+
+.result-box p {
+    margin-bottom: 0;
+    line-height: 1.6;
+    color: var(--color-text-main);
+    font-size: var(--font-size-sm);
+}
+
+/* Анимация для плавного появления */
+.ai-vacancy-result {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.625rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стили для placeholder */
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+    color: var(--color-text-subtle);
+    font-style: italic;
+}
+
+/* Стили для фокуса на полях */
+.form-section input:focus,
+.form-section textarea:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 2px rgba(0, 163, 255, 0.25);
+}
+
+/* Responsive стили */
+@media (max-width: 768px) {
+    .ai-vacancy-box,
+    .result-box {
+        padding: var(--space-sm);
+    }
+
+    .form-section input,
+    .form-section textarea {
+        font-size: var(--font-size-base); /* Предотвращает зум на мобильных устройствах */
+    }
 }

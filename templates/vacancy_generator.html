@@ -3,17 +3,136 @@
 {% block content %}
     <div class="headline">
         <h1>Генератор вакансий</h1>
-        <p>Создавайте профессиональные описания вакансий с помощью ИИ.</p>
-        <p>{{ vacancy if vacancy else 'Пример: Требуется специалист по HR с опытом работы от 3 лет.' }}</p>
+        <p>Создавайте профессиональные описания вакансий с помощью искусственного интеллекта.</p>
+
+        <!-- Контейнер для результата AI генерации -->
+        <div id="ai-vacancy-result" class="ai-vacancy-result" style="display: none;">
+            <div class="result-box ai-vacancy-box">
+                <h3>Сгенерированная вакансия:</h3>
+                <div id="ai-vacancy-content" class="ai-vacancy-content"></div>
+            </div>
+        </div>
+
+        <!-- Индикатор загрузки -->
+        <div id="loading-indicator" style="display: none;">
+            <div class="loading-box">
+                <p>Генерируем вакансию... Пожалуйста, подождите.</p>
+            </div>
+        </div>
+
+        <!-- Контейнер для ошибок -->
+        <div id="error-message" style="display: none;">
+            <div class="error-box">
+                <p id="error-text"></p>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block sidebar %}
-    <form method="POST" action="{{ url_for('vacancy_generator.vacancy_generator') }}">
-        <label>Должность:</label>
-        <input type="text" name="position" required>
-        <label>Опыт работы (лет):</label>
-        <input type="number" name="experience" required>
-        <button type="submit">Генерировать</button>
-    </form>
+    <!-- AI форма -->
+    <div class="form-section">
+        <h3>Генерация вакансии</h3>
+        <form id="ai-vacancy-form">
+            <label>Название вакансии:</label>
+            <input type="text" id="job_title" name="job_title" required placeholder="Например: Senior Python Developer">
+
+            <label>Компания:</label>
+            <input type="text" id="company" name="company" required placeholder="Например: Tech Solutions LLC">
+
+            <label>Задачи:</label>
+            <textarea id="tasks" name="tasks" required placeholder="Например: Разработка веб-приложений, код-ревью, менторство младших разработчиков"></textarea>
+
+            <label>Требования:</label>
+            <textarea id="requirements" name="requirements" required placeholder="Например: Python 3.8+, Django/Flask, PostgreSQL, опыт 3+ года"></textarea>
+
+            <label>Условия:</label>
+            <textarea id="conditions" name="conditions" required placeholder="Например: удаленная работа, гибкий график, ДМС, 100-150k руб"></textarea>
+
+            <button type="submit">Генерировать вакансию</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const aiForm = document.getElementById('ai-vacancy-form');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const aiVacancyResult = document.getElementById('ai-vacancy-result');
+    const aiVacancyContent = document.getElementById('ai-vacancy-content');
+    const errorMessage = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
+    const submitButton = aiForm.querySelector('button[type="submit"]');
+
+    aiForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Скрываем предыдущие результаты и ошибки
+        aiVacancyResult.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        // Показываем индикатор загрузки и блокируем кнопку
+        loadingIndicator.style.display = 'block';
+        submitButton.disabled = true;
+        submitButton.textContent = 'Генерируем...';
+
+        // Собираем данные формы
+        const formData = {
+            job_title: document.getElementById('job_title').value,
+            company: document.getElementById('company').value,
+            tasks: document.getElementById('tasks').value,
+            requirements: document.getElementById('requirements').value,
+            conditions: document.getElementById('conditions').value
+        };
+
+        // Отправляем запрос к API
+        fetch('/vacancy_generator/generate_job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Скрываем индикатор загрузки и разблокируем кнопку
+            loadingIndicator.style.display = 'none';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Генерировать вакансию';
+
+            if (data.error) {
+                // Показываем ошибку
+                errorText.textContent = data.error;
+                errorMessage.style.display = 'block';
+            } else {
+                // Обрабатываем успешный ответ
+                let vacancyText = '';
+                if (data.result && data.result.alternatives && data.result.alternatives.length > 0) {
+                    vacancyText = data.result.alternatives[0].message.text;
+                } else {
+                    vacancyText = 'Получен неожиданный формат ответа от API.';
+                }
+
+                // Показываем результат с улучшенным форматированием
+                aiVacancyContent.textContent = vacancyText;
+                aiVacancyResult.style.display = 'block';
+
+                // Прокручиваем к результату
+                aiVacancyResult.scrollIntoView({ behavior: 'smooth' });
+            }
+        })
+        .catch(error => {
+            // Скрываем индикатор загрузки и разблокируем кнопку
+            loadingIndicator.style.display = 'none';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Генерировать вакансию';
+
+            // Показываем ошибку
+            errorText.textContent = 'Произошла ошибка при генерации вакансии: ' + error.message;
+            errorMessage.style.display = 'block';
+        });
+    });
+});
+</script>
 {% endblock %}
