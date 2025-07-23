@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Добро пожаловать, {{ user_name }}!</h1>
+        <p>Главная панель Recruiter Pro</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="card-icon">🤖</div>
+            <h3>Генератор вакансий</h3>
+            <p>Создайте профессиональное описание вакансии с помощью ИИ</p>
+            <a href="{{ url_for('vacancy_generator.vacancy_generator') }}" class="card-button">
+                Создать вакансию
+            </a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon">💰</div>
+            <h3>Калькулятор зарплаты</h3>
+            <p>Рассчитайте зарплату с учетом всех коэффициентов и надбавок</p>
+            <a href="{{ url_for('salary_calculator.salary_calculator') }}" class="card-button">
+                Рассчитать зарплату
+            </a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon">👤</div>
+            <h3>Профиль</h3>
+            <p>Управляйте настройками вашего аккаунта</p>
+            <a href="{{ url_for('auth.profile') }}" class="card-button">
+                Открыть профиль
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from flask import render_template, request, Blueprint
+from flask_login import login_required
 from .utils import validate_input, calculate_salary
 
 salary_calculator_bp = Blueprint('salary_calculator', __name__)

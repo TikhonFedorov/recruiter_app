@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль - Recruiter Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 12H5M5 12l7 7m-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Назад к главной
+            </a>
+            <h1 class="profile-title">Профиль пользователя</h1>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <div class="avatar-placeholder">
+                        {{ user.name[0].upper() if user.name else 'U' }}
+                    </div>
+                </div>
+
+                <div class="profile-info">
+                    <div class="info-group">
+                        <label>Полное имя</label>
+                        <p>{{ user.name }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Email</label>
+                        <p>{{ user.email }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Компания</label>
+                        <p>{{ user.company or 'Не указана' }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Должность</label>
+                        <p>{{ user.position or 'Не указана' }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Телефон</label>
+                        <p>{{ user.phone or 'Не указан' }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Дата регистрации</label>
+                        <p>{{ user.created_at.strftime('%d.%m.%Y') if user.created_at else 'Не указана' }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Последний вход</label>
+                        <p>{{ user.last_login.strftime('%d.%m.%Y %H:%M') if user.last_login else 'Впервые' }}</p>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn btn-primary">Редактировать профиль</button>
+                    <button class="btn btn-secondary">Изменить пароль</button>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Выйти из аккаунта</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

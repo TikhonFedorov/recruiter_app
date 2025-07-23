@@ -1,16 +1,18 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, redirect, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_login import LoginManager, login_required, current_user
 import logging
 import os
 from config.settings import config_map
 from app.exceptions import BaseAppException
 
-# Создаём Limiter один раз, без передачи app
-limiter = Limiter(
-    key_func=get_remote_address,
-    default_limits=[]
-)
+# Импортируем db из models
+from app.models import db
+
+# Инициализация расширений
+limiter = Limiter(key_func=get_remote_address, default_limits=[])
+login_manager = LoginManager()
 
 def create_app(config_name=None):
     """Фабрика приложений Flask"""
@@ -19,8 +21,13 @@ def create_app(config_name=None):
         config_name = os.getenv('FLASK_ENV', 'development')
 
     app = Flask(__name__)
-
-    # Загрузка конфигурации
+    
+    # Конфигурация для БД и авторизации
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///recruiter_app.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-in-production')
+    
+    # Загрузка основной конфигурации
     config_class = config_map.get(config_name, config_map['default'])
     app.config.from_object(config_class)
 
@@ -32,31 +39,53 @@ def create_app(config_name=None):
             app.logger.error(f"Configuration error: {e}")
             raise
 
-    # Настройка логирования
-    setup_logging(app)
+    # Инициализация расширений с приложением
+    db.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message = 'Необходимо войти в систему для доступа к этой странице.'
+    login_manager.login_message_category = 'info'
 
-    # Настройка rate limiting
-    limiter.default_limits = app.config['RATELIMIT_DEFAULT'].split(';')
+    setup_logging(app)
+    limiter.default_limits = app.config.get('RATELIMIT_DEFAULT', '100 per hour').split(';')
     limiter.init_app(app)
 
-    # Регистрация blueprints
     register_blueprints(app)
-
-    # Регистрация обработчиков ошибок
     register_error_handlers(app)
 
-    # Основные маршруты
+    # Создание таблиц БД
+    with app.app_context():
+        db.create_all()
+
+    # Landing page
     @app.route('/')
+    def landing():
+        if current_user.is_authenticated:
+            return redirect(url_for('dashboard'))
+        return render_template('landing.html')
+    
+    @app.route('/index')
     def index():
         return render_template('index.html')
 
+    # Главная страница приложения
+    @app.route('/dashboard')
+    @login_required
+    def dashboard():
+        return render_template('dashboard.html', user_name=current_user.name)
+
     @app.route('/health')
     def health_check():
-        """Проверка здоровья приложения"""
         return jsonify({"status": "healthy", "version": "1.0.0"})
 
     return app
 
+@login_manager.user_loader
+def load_user(user_id):
+    from app.models import User
+    return User.query.get(int(user_id))
+
+# Остальные функции остаются без изменений...
 def setup_logging(app):
     """Настройка логирования"""
     if app.config.get('TESTING', False):
@@ -79,9 +108,11 @@ def setup_logging(app):
 
 def register_blueprints(app):
     """Регистрация blueprints"""
+    from app.auth.routes import auth_bp
     from app.salary_calculator.routes import salary_calculator_bp
     from app.vacancy_generator.routes import vacancy_generator_bp
 
+    app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(salary_calculator_bp, url_prefix='/salary_calculator')
     app.register_blueprint(vacancy_generator_bp, url_prefix='/vacancy_generator')
 
@@ -125,4 +156,4 @@ def register_error_handlers(app):
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='0.0.0.0', port=5000, debug=app.config['DEBUG'])
+    app.run(host='0.0.0.0', port=5000, debug=app.config.get('DEBUG', True))

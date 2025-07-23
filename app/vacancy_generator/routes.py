@@ -1,4 +1,5 @@
 from flask import render_template, request, Blueprint, jsonify
+from flask_login import login_required
 import requests
 import os
 from dotenv import load_dotenv

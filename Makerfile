@@ -4,6 +4,26 @@
 install:
 	pip install -r requirements/dev.txt
 
+# Запуск приложения
+run:
+	python flask_app.py
+
+# Инициализация БД
+db-init:
+	python manage_db.py init
+
+# Пересоздание БД
+db-reset:
+	python manage_db.py reset
+
+# Создание тестовых пользователей
+create-user:
+	python create_test_user.py
+
+# Просмотр пользователей
+list-users:
+	python manage_db.py users	
+
 test:
 	pytest tests/ -v --cov=app
 
